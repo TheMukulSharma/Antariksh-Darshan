@@ -2,6 +2,7 @@
 
 A Python CLI tool that tells you which planets are visible in the night sky
 right now — auto-detects your location, no setup required
+
 ---
 
 ## Features
