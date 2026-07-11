@@ -57,3 +57,9 @@ def get_altaz_info(apparent):
     compass = degrees_to_compass(az_deg)
     is_visible = alt_deg >= MIN_ALTITUDE
     return alt_deg, az_deg, dist_au, compass, is_visible
+
+def get_sun_altitude(observer,t,eph):
+    """Return the Sun's altitude in degrees """
+    apparent = observe(observer,t,eph["sun"])
+    alt,az,dist = apparent.altaz()
+    return alt.degrees
