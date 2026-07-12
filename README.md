@@ -1,17 +1,21 @@
-# Antariksh Darshan
+#  Antariksh Darshan
 
-A Python CLI tool that tells you which planets and the Moon are visible in the night sky right now — auto-detects your location with zero setup required.
+A Python CLI tool that tells you which Planets and the Moon are visible in the  sky
+right now — auto-detects your location, no setup required
 
 ---
 
 ## Features
 
-- **Auto-Location Detection** — Uses your IP address to find your location (no API keys or configuration needed).
-- **Comprehensive Tracking** — Checks all 7 major planets: Mercury, Venus, Mars, Jupiter, Saturn, Uranus, and Neptune.
-- **Moon Phase Analytics** — Tracks real-time Moon visibility and illumination percentage.
-- **Detailed Metrics** — Provides altitude, compass direction (azimuth), and distance for every celestial body.
-- **Smart Fallback** — Prompts for manual coordinate input if auto-detection fails.
-- **Localized Time** — Automatically adapts to your local time and timezone.
+- Auto-detects your location via IP — no config, no API key
+- Checks all 7 planets: Mercury, Venus, Mars, Jupiter, Saturn, Uranus, Neptune
+- Accounts for daylight — a planet above the horizon during the day is
+  correctly marked not visible, not just "too low"
+- Tracks Moon visibility and real-time phase illumination percentage!
+- Shows altitude, compass direction, and distance for each planet
+- Falls back to manual input if auto-detection fails
+- Displays your local time and timezone
+
 
 ---
 
@@ -52,26 +56,11 @@ Neptune—below horizon
 0 planet(s) visible right now.
 ==================================================
 ```
-*(Actual values depend on your real location and time.)*
+
+*(a planet that's geometrically above the horizon but hidden by daylight
+will instead print something like `Jupiter—up at 45.0°, but it's daylight`)*
 
 ---
-
-## Project structure
-
-```
-Antariksh-Darshan/
-├── main.py   
-├── src/
-│   ├── location.py
-│   ├── astronomy.py
-│   ├── moon.py    
-│   ├── utils.py   
-│   ├── display.py     
-│   └── constants.py   
-├── requirements.txt
-└── LICENSE
-
-```
 
 ## Getting Started
 
@@ -116,24 +105,54 @@ python main.py
 
 1. **Location Detection** — Sends a request to  get your latitude,
    longitude, and timezone from your public IP address
-2. **Ephemeris Load** — Downloads NASA's  ephemeris file which contains
+2. **Ephemeris Load** — Downloads NASA's ephemeris file which contains
    pre-calculated planet positions from 1900–2050
 3. **Position Calculation** — For each planet, Skyfield calculates the apparent
    altitude and azimuth as seen from your exact location at the current moment
-4. **Visibility Filter** — Any planet with an altitude above 10° is marked visible.
-   Below 10°, atmospheric distortion makes observation unreliable
+4. **Daylight Check** — The Sun's altitude is calculated the same way. The sky
+   only counts as dark enough to see planets once the Sun is at least 6°
+   below the horizon (the end of civil twilight)
+5. **Visibility Filter** — A planet is marked visible only if *both* hold:
+   its altitude is above 10° (below that, atmospheric distortion makes
+   observation unreliable), *and* the sky is dark enough per the check above.
+   A planet can be high in the sky and still correctly show as not visible
+   if the Sun hasn't set far enough yet
 
- ---
- 
+---
+
+## Project Structure
+
+```
+Antariksh-Darshan/
+│
+├── main.py
+├── requirements.txt
+├── .gitignore
+├── LICENSE
+├── README.md
+└── src/        
+   ├── astronomy.py
+   ├── constants.py
+   ├── display.py
+   ├── location.py
+   └── moon.py
+   └── utils.py
+```
+
 ## What If Auto-Location Detection Fails?
  
 If the IP lookup fails, the script will prompt you to enter your location manually.
  
 **Step 1 — Find your coordinates**
-
+ 
+```
+Latitude  → positive = North, negative = South
+Longitude → positive = East,  negative = West
+```
+ 
 **Step 2 — Find your timezone string**
  
-Use the exact string of the TIME ZONE
+Use the exact string of the timezone
 Common ones:
  
 ```
@@ -145,18 +164,26 @@ Asia/Tokyo            → Japan
 Australia/Sydney      → Australia
 ```
  
-**Step 3 — Adjust minimum altitude (optional)**
+**Step 3 — Adjust the visibility thresholds (optional)**
  
-`MIN_ALTITUDE` in `src/constants.py` is set to `10.0` degrees. Below that, Earth's atmosphere
-blurs the view. Set it to `0.0` if you want to see everything above the horizon.
- 
+Two constants in `src/constants.py` control what counts as "visible":
+
+- `MIN_ALTITUDE` (default `10.0°`) — how high above the horizon a planet
+  must be. Below this, Earth's atmosphere blurs the view.
+- `SUN_ALTITUDE_LIMIT` (default `-6.0°`) — how far below the horizon the
+  Sun must be before the sky counts as dark enough to see planets against.
+  Roughly "end of civil twilight." Lower it (e.g. `-12.0`) to require a
+  darker sky, or raise it toward `0.0` to allow results in twilight.
+
 ---
  
 ## What I Learned Building This
  
 - Astronomical coordinate systems (altitude & azimuth)
 - How ephemeris data works and how NASA calculates planet positions
-- Working with  scientific Python libraries
+- Working with scientific Python libraries
 - IP geolocation APIs and graceful fallback handling
-- Structuring a clean  Python CLI project
----
+- Structuring a clean single-file Python CLI project
+- The difference between a planet being geometrically above the horizon
+  and actually visible — daylight can hide something that's high in the sky
+ ---
