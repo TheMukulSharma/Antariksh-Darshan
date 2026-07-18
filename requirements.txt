@@ -1,3 +1,2 @@
 requests==2.32.3
 skyfield==1.49
-pytz==2024.1

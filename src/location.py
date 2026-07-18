@@ -1,6 +1,6 @@
 """Location detection: IP-based auto-detection with manual fallback."""
 
-import pytz
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 import requests
 
 
@@ -17,13 +17,13 @@ def get_valid_float(prompt_text, min_val, max_val):
 
 
 def get_valid_timezone(prompt):
-    """Prompt until the user enters a valid IANA timezone name."""
+    """Prompt until the user enters a valid  timezone name."""
     while True:
         tz_input = input(prompt).strip()
         try:
-            return pytz.timezone(tz_input).zone
-        except pytz.UnknownTimeZoneError:
-            print("Error: Unknown timezone.")
+            return ZoneInfo(tz_input).key
+        except ZoneInfoNotFoundError:
+            print("Error: Unknown or invalid timezone. Please try again.")
 
 
 def get_location():
