@@ -15,16 +15,14 @@ from .constants import MIN_ALTITUDE
 
 
 def get_observer(loc, eph):
-    """Build a topocentric observer for the given location.
-    """
+    """Build a topocentric observer for the given location."""
     earth = eph["earth"]
     surface = wgs84.latlon(latitude_degrees=loc["lat"], longitude_degrees=loc["lon"])
     return earth + surface
 
 
 def get_local_time(loc, local_time=None):
-    """Resolve the local datetime to use for an observation.
-    """
+    """Resolve the local datetime to use for an observation."""
     if local_time is not None:
         return local_time
     tz = pytz.timezone(loc["timezone"])
@@ -32,24 +30,21 @@ def get_local_time(loc, local_time=None):
 
 
 def degrees_to_compass(degrees):
-    """Convert an azimuth angle into an 8-point compass direction.
-    """
+    """Convert an azimuth angle into an 8-point compass direction."""
     normalized = degrees % 360
-    directions = ["N","NE","E","SE","S","SW","W","NW"]
-    index = int((normalized+22.5)/45)%8
+    directions = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
+    index = int((normalized + 22.5) / 45) % 8
     return directions[index]
 
 
 def observe(observer, t, body):
-    """Observe a body from an observer at a given time..
-    """
+    """Observe a body from an observer at a given time.."""
     astrometric = observer.at(t).observe(body)
     return astrometric.apparent()
 
 
 def get_altaz_info(apparent):
-    """Extract altitude, azimuth, distance, compass, and visibility.
-    """
+    """Extract altitude, azimuth, distance, compass, and visibility."""
     alt, az, dist = apparent.altaz()
     alt_deg = alt.degrees
     az_deg = az.degrees
@@ -58,8 +53,9 @@ def get_altaz_info(apparent):
     is_visible = alt_deg >= MIN_ALTITUDE
     return alt_deg, az_deg, dist_au, compass, is_visible
 
-def get_sun_altitude(observer,t,eph):
-    """Return the Sun's altitude in degrees """
-    apparent = observe(observer,t,eph["sun"])
-    alt,az,dist = apparent.altaz()
+
+def get_sun_altitude(observer, t, eph):
+    """Return the Sun's altitude in degrees"""
+    apparent = observe(observer, t, eph["sun"])
+    alt, az, dist = apparent.altaz()
     return alt.degrees

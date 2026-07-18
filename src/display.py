@@ -8,8 +8,10 @@ def print_header():
     print("+------------------------------------------------+")
     print("Detecting your location...")
 
+
 def print_row(text):
-    print("|"+text.center(48)+"|")
+    print("|" + text.center(48) + "|")
+
 
 def print_location_found(loc):
     """Print the detected (or manually entered) location."""
@@ -18,7 +20,7 @@ def print_location_found(loc):
     print("Loading NASA JPL planet data...\n")
 
 
-def print_observer_info(local_time,loc):
+def print_observer_info(local_time, loc):
     """Print the observation timestamp and location header"""
     location_str = f"{loc['city']},{loc['country']}".strip(", ")
     print("+" + "-" * 48 + "+")
@@ -34,7 +36,9 @@ def print_moon_result(moon):
         print("\nMOON [VISIBLE]")
         print(f"   |-- Altitude : {moon['alt_deg']:>6.1f}° above horizon")
         print(f"   |-- Direction: {moon['az_deg']:>6.1f}° ({moon['compass']})")
-        print(f"   |-- Distance : {moon['dist_au']:.3f} AU ({moon['dist_au']*KM_PER_AU:,.0f} km)")
+        print(
+            f"   |-- Distance : {moon['dist_au']:.3f} AU ({moon['dist_au']*KM_PER_AU:,.0f} km)"
+        )
         print(f"   |-- Phase    : {moon['illumination']*100:.1f}% Illumination")
     else:
         if moon["alt_deg"] < 0:
@@ -44,17 +48,20 @@ def print_moon_result(moon):
         print(f"\nMOON [{label.upper()}]")
         print(f"   |-- Phase    : {moon['illumination'] * 100:.1f}% Illumination")
 
+
 def print_planet_results(results):
     """Print each planet's visibility and return how many are visible."""
     visible = 0
     for planet in results:
-        Name = planet['name'].upper()
+        Name = planet["name"].upper()
         if planet["is_visible"]:
             visible += 1
             print(f"\n{Name} [VISIBLE]")
             print(f"   |-- Altitude : {planet['alt_deg']:>6.1f}° above horizon")
             print(f"   |-- Direction: {planet['az_deg']:>6.1f}° ({planet['compass']})")
-            print(f"   |-- Distance : {planet['dist_au']:.3f} AU ({planet['dist_au']*KM_PER_AU:,.0f} km)")
+            print(
+                f"   |-- Distance : {planet['dist_au']:.3f} AU ({planet['dist_au']*KM_PER_AU:,.0f} km)"
+            )
         else:
             if planet["alt_deg"] < 0:
                 label = "Below Horizon"
