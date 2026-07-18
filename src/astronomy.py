@@ -41,6 +41,7 @@ def calculate_visibility(loc, planets, ts):
                 "dist_au":dist_au,
                 "compass":compass,
                 "is_visible":is_visible,
+                "alt_ok":alt_ok,
             }
         )
 

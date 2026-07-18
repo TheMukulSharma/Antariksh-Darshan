@@ -22,39 +22,39 @@ right now — auto-detects your location, no setup required
 ## Sample Output
 
 ```
-ANTARIKSH DARSHAN
-==================================================
++------------------------------------------------+
+|               ANTARIKSH DARSHAN                |
++------------------------------------------------+
 Detecting your location...
 Found: New Delhi,India
 Loading NASA JPL planet data...
 
-==================================================
-Tuesday July 07, 2026 — 08:44 PM IST
-Delhi,India
-29°,72°
-==================================================
++------------------------------------------------+
+|     Wednesday July 15, 2026 — 10:21 AM IST     |
+|                  Delhi,India                   |
+|                    28°,77°                     |
++------------------------------------------------+
 
-Moon
-Moon—below horizon
-Illumination:  51.2%
+MOON [TOO LOW (9.5°)]
+   |-- Phase    : 4.6% Illumination
 
-Mercury—below horizon
+MERCURY [UP AT 37.1°, BUT IT'S DAYLIGHT]
 
-Venus—below horizon
+VENUS [BELOW HORIZON]
 
-Mars—below horizon
+MARS [UP AT 72.8°, BUT IT'S DAYLIGHT]
 
-Jupiter—below horizon
+JUPITER [UP AT 24.0°, BUT IT'S DAYLIGHT]
 
-Saturn—below horizon
+SATURN [UP AT 45.5°, BUT IT'S DAYLIGHT]
 
-Uranus—below horizon
+URANUS [UP AT 78.4°, BUT IT'S DAYLIGHT]
 
-Neptune—below horizon
+NEPTUNE [UP AT 35.8°, BUT IT'S DAYLIGHT]
++------------------------------------------------+
+|         0 planet(s) visible right now!         |
++------------------------------------------------+
 
-==================================================
-0 planet(s) visible right now.
-==================================================
 ```
 
 *(a planet that's geometrically above the horizon but hidden by daylight
