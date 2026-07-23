@@ -50,8 +50,8 @@ def get_altaz_info(apparent):
     az_deg = az.degrees
     dist_au = dist.au
     compass = degrees_to_compass(az_deg)
-    is_visible = alt_deg >= MIN_ALTITUDE
-    return alt_deg, az_deg, dist_au, compass, is_visible
+    alt_ok = alt_deg >= MIN_ALTITUDE
+    return alt_deg, az_deg, dist_au, compass, alt_ok
 
 
 def get_sun_altitude(observer, t, eph):

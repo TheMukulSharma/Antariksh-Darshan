@@ -43,8 +43,11 @@ def print_moon_result(moon):
     else:
         if moon["alt_deg"] < 0:
             label = "Below Horizon"
-        else:
+        elif not moon["alt_ok"]:
             label = f"Too Low ({moon['alt_deg']:.1f}°)"
+        else:
+            label = f"Up at {moon['alt_deg']:.1f}°, but it's daylight"
+
         print(f"\nMOON [{label.upper()}]")
         print(f"   |-- Phase    : {moon['illumination'] * 100:.1f}% Illumination")
 

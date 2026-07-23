@@ -1,6 +1,13 @@
 """Moon visibility and illumination calculations."""
 
-from .utils import get_altaz_info, get_local_time, get_observer, observe
+from .constants import SUN_ALTITUDE_LIMIT
+from .utils import (
+    get_altaz_info,
+    get_local_time,
+    get_observer,
+    get_sun_altitude,
+    observe,
+)
 
 
 def calculate_moon_visibility(loc, eph, ts, local_time=None):
@@ -14,8 +21,12 @@ def calculate_moon_visibility(loc, eph, ts, local_time=None):
         sun = eph["sun"]
 
         apparent = observe(observer, t, moon)
-        alt_deg, az_deg, dist_au, compass, is_visible = get_altaz_info(apparent)
+        alt_deg, az_deg, dist_au, compass, alt_ok = get_altaz_info(apparent)
         illumination = apparent.fraction_illuminated(sun)
+
+        sun_alt_deg = get_sun_altitude(observer, t, eph)
+        sky_is_dark = sun_alt_deg <= SUN_ALTITUDE_LIMIT
+        is_visible = alt_ok and sky_is_dark
 
         return {
             "name": "Moon",
@@ -25,7 +36,9 @@ def calculate_moon_visibility(loc, eph, ts, local_time=None):
             "compass": compass,
             "illumination": illumination,
             "is_visible": is_visible,
+            "alt_ok": alt_ok,
         }
+
     except (ValueError, TypeError) as e:
         print(f"Calculation failed due to invalid input data or time format: {e}")
         return None
