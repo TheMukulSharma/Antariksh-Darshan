@@ -9,7 +9,7 @@ they calculate, not *how* the underlying Skyfield calls work.
 """
 
 from datetime import datetime
-import pytz
+from zoneinfo import ZoneInfo
 from skyfield.api import wgs84
 from .constants import MIN_ALTITUDE
 
@@ -25,7 +25,7 @@ def get_local_time(loc, local_time=None):
     """Resolve the local datetime to use for an observation."""
     if local_time is not None:
         return local_time
-    tz = pytz.timezone(loc["timezone"])
+    tz = ZoneInfo(loc["timezone"])
     return datetime.now(tz)
 
 

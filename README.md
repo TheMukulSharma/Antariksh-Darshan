@@ -71,7 +71,7 @@ will instead print something like `Jupiter—up at 45.0°, but it's daylight`)*
 ## Getting Started
 
 ### Prerequisites
-- Python 3.8 or higher
+- Python 3.9 or higher
 - pip
 
 ### Installation
@@ -102,7 +102,7 @@ python main.py
 | Python 3      | Core language                                    |
 | Skyfield      | Astronomical calculations using NASA JPL data    |
 | requests      | HTTP calls for IP geolocation                    |
-| pytz          | Timezone handling                                |
+| ZoneInfo      | Timezone handling   (standard library)           |
 | NASA JPL      | Ephemeris data (planet positions)                |
 
 ---
