@@ -32,6 +32,10 @@ def print_observer_info(local_time, loc):
 
 def print_moon_result(moon):
     """Print the Moon's altitude, direction, distance, and illumination."""
+    if moon is None:
+        print("\nMOON [DATA UNAVAILABLE]")
+        return
+
     if moon["is_visible"]:
         print("\nMOON [VISIBLE]")
         print(f"   |-- Altitude : {moon['alt_deg']:>6.1f}° above horizon")
